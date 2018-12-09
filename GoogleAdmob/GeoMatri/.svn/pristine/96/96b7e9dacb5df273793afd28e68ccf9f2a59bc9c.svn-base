@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace NNest.GeometryJump
+{
+    [Serializable]
+    public class GameData
+    {
+        public Score score;
+        public Item Life;
+        public Item Diamond;
+
+        public void Init()
+        {
+            this.score = new Score();
+            this.Life = new Item(ItemType.LIFE, 3);
+            this.Diamond = new Item(ItemType.DIAMOND, 0);
+        }
+
+        public void SetScore(Score _score) 
+        {
+            if (_score == null)
+                return;
+
+            score = _score;
+        }
+
+        public void SetLife(Item _item)
+        {
+            if (_item == null)
+                return;
+
+            Life = _item;
+        }
+
+        public void SetDiamond(Item _diamond)
+        {
+            if (_diamond == null)
+                return;
+
+            Diamond = _diamond;
+        }
+    }
+
+
+
+    public class DataManager : MonoBehaviorHelper
+    {
+        public GameData Data;
+
+        public void Init()
+        {
+            Data = DataIO.Load<GameData>();
+            if (Data == null)
+            {
+                Data = new GameData();
+                Data.Init();
+            }
+            DataIO.Save<GameData>(Data);
+        }
+
+        public void DataSave()
+        {
+            DataIO.Save<GameData>(Data);
+        }
+    }
+}
